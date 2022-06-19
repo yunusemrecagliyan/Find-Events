@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "prices",
+  "info": {
+    "singularName": "price",
+    "pluralName": "prices",
+    "displayName": "Price",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "price_group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::price-group.price-group"
+    },
+    "event": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::event.event",
+      "inversedBy": "prices"
+    },
+    "price": {
+      "type": "float"
+    },
+    "discount": {
+      "type": "decimal"
+    }
+  }
+}

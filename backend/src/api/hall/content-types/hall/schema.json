@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "halls",
+  "info": {
+    "singularName": "hall",
+    "pluralName": "halls",
+    "displayName": "Hall",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "capacity": {
+      "type": "integer"
+    },
+    "isSeated": {
+      "type": "boolean"
+    },
+    "place": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::place.place",
+      "inversedBy": "halls"
+    },
+    "seating": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::seating.seating"
+    }
+  }
+}

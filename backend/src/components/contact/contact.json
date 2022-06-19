@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_contact_contacts",
+  "info": {
+    "displayName": "Contact",
+    "icon": "phone-alt",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "website": {
+      "type": "string"
+    },
+    "facebook": {
+      "type": "string"
+    },
+    "instagram": {
+      "type": "string"
+    },
+    "youtube": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "twitter": {
+      "type": "string"
+    }
+  }
+}

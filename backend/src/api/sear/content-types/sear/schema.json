@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sears",
+  "info": {
+    "singularName": "sear",
+    "pluralName": "sears",
+    "displayName": "Seat",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "xLoc": {
+      "type": "decimal"
+    },
+    "yLoc": {
+      "type": "decimal"
+    },
+    "number": {
+      "type": "integer"
+    },
+    "letter": {
+      "type": "string"
+    },
+    "price_group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::price-group.price-group"
+    },
+    "seating": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::seating.seating",
+      "inversedBy": "seats"
+    }
+  }
+}

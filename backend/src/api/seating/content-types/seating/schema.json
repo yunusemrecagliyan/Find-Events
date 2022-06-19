@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "seatings",
+  "info": {
+    "singularName": "seating",
+    "pluralName": "seatings",
+    "displayName": "Seating",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "canvasWidth": {
+      "type": "integer"
+    },
+    "canvasHeight": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "seats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::sear.sear",
+      "mappedBy": "seating"
+    }
+  }
+}

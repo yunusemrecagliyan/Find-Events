@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "price_groups",
+  "info": {
+    "singularName": "price-group",
+    "pluralName": "price-groups",
+    "displayName": "PriceGroup",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}
