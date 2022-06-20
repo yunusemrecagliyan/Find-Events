@@ -8,7 +8,7 @@
 
 <script setup>
 import { RouterView } from "vue-router";
-import ENavbar from "./components/Layout/ENavbar.vue";
-import EFooter from "./components/Layout/EFooter.vue";
+import ENavbar from "./components/Layout/Navbar.vue";
+import EFooter from "./components/Layout/Footer.vue";
 </script>
 <style></style>

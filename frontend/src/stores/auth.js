@@ -4,7 +4,7 @@ import { setToken } from "../services/jwt";
 
 import config from "../services/jwt/config";
 
-export const useCounterStore = defineStore({
+export const useAuthStore = defineStore({
   id: "auth",
   state: () => ({
     user: null,
