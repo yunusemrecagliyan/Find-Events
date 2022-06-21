@@ -18,12 +18,6 @@
     "adress": {
       "type": "string"
     },
-    "lat": {
-      "type": "string"
-    },
-    "long": {
-      "type": "string"
-    },
     "bannerPicture": {
       "type": "media",
       "multiple": false,
@@ -54,6 +48,9 @@
       "relation": "oneToMany",
       "target": "api::hall.hall",
       "mappedBy": "place"
+    },
+    "map": {
+      "type": "text"
     }
   }
 }
