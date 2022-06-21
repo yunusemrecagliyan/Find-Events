@@ -16,16 +16,13 @@ export default {
     },
     color: {
       type: String,
-      default: "#5dc596",
+      default: "#ffffff",
     },
     size: {
       type: String,
-      default: "15px",
+      default: "12px",
     },
-    margin: {
-      type: String,
-      default: "2px",
-    },
+
     radius: {
       type: String,
       default: "100%",
@@ -37,7 +34,6 @@ export default {
         backgroundColor: this.color,
         height: this.size,
         width: this.size,
-        margin: this.margin,
         borderRadius: this.radius,
       },
     };

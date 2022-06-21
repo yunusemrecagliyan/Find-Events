@@ -6,7 +6,8 @@
     :disabled="disabled || loading"
     class="items-center justify-center border border-transparent rounded-md shadow-sm font-medium focus:outline-none focus:ring-gray-600 focus:border-gray-600 transition ease-in-out duration-150"
     :class="{
-      'text-white bg-blue-600 hover:bg-blue-700': variant === 'primary',
+      'text-white bg-secondary-600 hover:bg-secondary-700':
+        variant === 'primary',
       'text-xs px-2.5 py-1.5 leading-4': size === 'xs',
       'text-sm px-4 py-2 leading-4': size === 'sm',
       'text-sm px-5 py-2 leading-5': size === 'md',
@@ -21,7 +22,7 @@
       v-if="loading"
       class="absolute flex w-full items-center justify-center"
     >
-      <LoadingIcon :size="size" />
+      <LoadingIcon :loading="loading" />
     </span>
 
     <span class="flex flex-wrap items-center" :class="{ 'opacity-0': loading }">

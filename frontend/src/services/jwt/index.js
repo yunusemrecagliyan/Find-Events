@@ -5,19 +5,32 @@ export function getToken() {
   return localStorage.getItem(jwtConfig.STORAGE_TOKEN_KEY_NAME);
 }
 
+export function getUser() {
+  return JSON.parse(localStorage.getItem(jwtConfig.STORAGE_USER_KEY_NAME));
+}
+
 export function deleteToken() {
   localStorage.removeItem(jwtConfig.STORAGE_TOKEN_KEY_NAME);
+}
+
+export function deleteUser() {
+  localStorage.removeItem(jwtConfig.STORAGE_USER_KEY_NAME);
 }
 
 export function setToken(value) {
   localStorage.setItem(jwtConfig.STORAGE_TOKEN_KEY_NAME, value);
 }
 
+export function setUser(value) {
+  localStorage.setItem(jwtConfig.STORAGE_USER_KEY_NAME, JSON.stringify(value));
+}
+
 export function fillAxiosHeader(axiosInstance) {
   axiosInstance.interceptors.request.use(
     (config) => {
       const token = getToken();
-      if (token) {
+      console.log(token == "null");
+      if (token && token != "null") {
         if (config.headers) {
           config.headers["Authorization"] = `${jwtConfig.TOKEN_TYPE} ${token}`;
         }
@@ -37,6 +50,7 @@ export function handleUnauthorizedRequest(axiosInstance) {
       return response;
     },
     (error) => {
+      console.log(error);
       const originalRequest = error.config;
       if (
         error.response.status === 401 &&

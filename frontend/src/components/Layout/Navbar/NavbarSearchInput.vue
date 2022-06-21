@@ -17,7 +17,7 @@
             'border-red-400': errors.length,
             'pl-12': withIcon === true,
             'focus:rounded-t focus:border-b-0': showSearch === true,
-            ' bg-white shadow-lg border border-2 border-secondary-300':
+            ' bg-white shadow-lg border-b-0 border-2 border-secondary-300':
               isFocused,
             'rounded-md': !showSearch,
           },
@@ -64,7 +64,7 @@
       <div
         v-if="showSearch"
         ref="searchResult"
-        class="absolute block left-0 bottom-0 border-t-0 border-secondary-300 -mb-6 w-full border transition-all duration-100"
+        class="absolute block left-0 bottom-0 top-0 border-t-0 border-secondary-300 mt-12 h-64 w-full border transition-all duration-100"
         :class="{
           'border-l-2 border-r-2 border-b-2 border-secondary-300 rounded-b block':
             isFocused,

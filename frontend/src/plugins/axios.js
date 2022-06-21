@@ -3,7 +3,7 @@ import axios from "axios";
 import { fillAxiosHeader, handleUnauthorizedRequest } from "@/services/jwt";
 
 let $axios = axios.create({
-  baseURL: `${import.meta.env.BaseURL}/api/`,
+  baseURL: `${import.meta.env.VITE_APP_BASE_URL}/api/`,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

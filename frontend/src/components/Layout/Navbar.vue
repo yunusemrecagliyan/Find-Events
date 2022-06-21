@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="currentLayout != 'auth'"
     class="sm:h-32 py-6 sm:py-0 rounded-b-lg bg-gradient-to-b from-secondary-300 to-secondary-200 border-b border-secondary-200 relative"
   >
     <nav
@@ -10,7 +11,7 @@
           to="/"
           class="text-lg font-bold text-gray-100 sm:text-2xl hover:text-secondary-400"
         >
-          <img src="@/assets/logo.svg" alt="FindEvent" class="w-44 h-20" />
+          <icon-logo alt="FindEvent" class="w-44 h-20 text-white" />
         </router-link>
 
         <navbar-toggle-button
@@ -39,7 +40,13 @@
           />
         </template>
         <template #searchResult>
-          <div class="bg-white text-black">Selam</div>
+          <div class="bg-white text-black h-full px-2 overflow-auto">
+            <div class="py-4">Selam</div>
+            <div class="py-4">Selam</div>
+            <div class="py-4">Selam</div>
+            <div class="py-4">Selam</div>
+            <div class="py-4">Selam</div>
+          </div>
         </template>
       </navbar-search-input>
     </div>
@@ -53,6 +60,7 @@ import MobileMenu from "./Navbar/MobileMenu.vue";
 import NavbarToggleButton from "./Navbar/NavbarToggleButton.vue";
 import NavbarSearchInput from "./Navbar/NavbarSearchInput.vue";
 import IconSearch from "../Icons/IconSearch.vue";
+import IconLogo from "../Icons/IconLogo.vue";
 const showMenu = ref(false);
 let searchText = ref("");
 const showSearch = ref(false);

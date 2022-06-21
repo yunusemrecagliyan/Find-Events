@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import config from "../services/jwt/config";
+import { getToken, getUser } from "../services/jwt";
+import { useAuthStore } from "../stores/auth";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,29 +44,21 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, _, next) => {
-  const isLoggedIn = getUserData();
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+  authStore.user = getUser();
+
+  const token = getToken();
+  // Redirect if not logged in
+  if (to.meta.redirectIfNotLoggedIn && !token) {
+    return next({ path: "/login" });
+  }
 
   // Redirect if logged in
-  if (to.meta.redirectIfLoggedIn && isLoggedIn) {
-    next(getHomeRouteForLoggedInUser());
+  if (to.meta.redirectIfLoggedIn && token) {
+    return next({ path: "/" });
   }
-
-  // Redirect if not logged in
-  if (to.meta.redirectIfNotLoggedIn && !isLoggedIn) {
-    next({ name: "/login" });
-  }
-
   return next();
 });
-
-const getUserData = () =>
-  JSON.parse(localStorage.getItem(config.STORAGE_TOKEN_KEY_NAME));
-
-const getHomeRouteForLoggedInUser = () => {
-  const userData = getUserData();
-  if (userData) return "/";
-  return { name: "/login" };
-};
 
 export default router;
