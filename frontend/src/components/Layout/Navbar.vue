@@ -1,15 +1,16 @@
 <template>
   <div
-    class="sm:h-36 py-6 sm:py-0 bg-secondary-50 border-b border-secondary-200 relative"
+    class="sm:h-32 py-6 sm:py-0 rounded-b-lg bg-gradient-to-b from-secondary-300 to-secondary-200 border-b border-secondary-200 relative"
   >
     <nav
-      class="px-6 container mt-10 sm:flex sm:justify-between sm:items-center"
+      class="px-6 container mt-4 sm:flex sm:justify-between sm:items-center mx-auto"
     >
       <div class="flex justify-between">
         <router-link
           to="/"
-          class="text-xl font-bold text-gray-800 sm:text-2xl hover:text-secondary-400"
-          >Find Your Events
+          class="text-lg font-bold text-gray-100 sm:text-2xl hover:text-secondary-400"
+        >
+          <img src="@/assets/logo.svg" alt="FindEvent" class="w-44 h-20" />
         </router-link>
 
         <navbar-toggle-button
@@ -19,28 +20,35 @@
       <mobile-menu :show-menu="showMenu" />
     </nav>
     <div
-      class="absolute bottom-0 w-3/4 mx-auto -mb-6 absolute-input-center hidden sm:block"
+      v-if="currentLayout == 'search'"
+      class="absolute bottom-0 w-4/6 mx-auto -mb-6 absolute-input-center hidden sm:block"
     >
       <navbar-search-input
         with-icon
         placeholder="Aradığınız etkinlik, kategori veya sanatçıyı yazınız."
         :value="searchText"
-        @input="(e) => (searchText = e)"
-        @focus="showSearch = true"
+        @input="(e) => changeSearchText(e)"
+        @focus="showSearch = searchText.length > 3"
         @away="showSearch = false"
         @keydown="enterSearch"
+        :show-search="showSearch"
       >
         <template #icon>
           <icon-search
-            class="mt-[18px] w-5 h-5 stroke-current text-secondary-500"
-          /> </template
-      ></navbar-search-input>
+            class="mt-[14px] w-5 h-5 stroke-current text-secondary-500"
+          />
+        </template>
+        <template #searchResult>
+          <div class="bg-white text-black">Selam</div>
+        </template>
+      </navbar-search-input>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
 import MobileMenu from "./Navbar/MobileMenu.vue";
 import NavbarToggleButton from "./Navbar/NavbarToggleButton.vue";
 import NavbarSearchInput from "./Navbar/NavbarSearchInput.vue";
@@ -48,6 +56,22 @@ import IconSearch from "../Icons/IconSearch.vue";
 const showMenu = ref(false);
 let searchText = ref("");
 const showSearch = ref(false);
+let currentLayout = ref("");
+
+const route = useRoute();
+
+const changeSearchText = (e) => {
+  searchText.value = e;
+  if (searchText.value.length >= 3) showSearch.value = true;
+  else showSearch.value = false;
+};
+
+watch(
+  () => route.meta.layout,
+  async (layout) => {
+    currentLayout.value = layout;
+  }
+);
 
 const enterSearch = (e) => {
   if (e.key === "Enter") {

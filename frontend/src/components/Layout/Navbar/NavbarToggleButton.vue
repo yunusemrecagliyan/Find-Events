@@ -1,9 +1,9 @@
 <template>
-  <base-button variant="success" class="sm:hidden">
+  <base-button variant="success" class="sm:hidden border-white">
     <div class="flex">
       <button
         type="button"
-        class="text-gray-800 hover:text-gray-400 focus:outline-none focus:text-gray-400"
+        class="text-white hover:text-gray-400 focus:outline-none focus:text-gray-400"
       >
         <icon-hamburger />
       </button></div

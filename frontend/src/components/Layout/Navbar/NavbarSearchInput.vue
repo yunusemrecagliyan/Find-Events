@@ -11,12 +11,14 @@
         :id="id"
         ref="input"
         v-bind="$attrs"
-        class="px-2 py-2 h-14 duration-150 leading-normal flex w-full placeholder-gray-600 text-xs text-gray-800 bg-white border border-secondary-200 font-sans text-left appearance-none outline-none transition-all"
+        class="px-2 py-2 h-12 duration-150 leading-normal flex w-full placeholder-gray-600 text-xs text-gray-800 bg-white border border-secondary-200 font-sans text-left appearance-none outline-none transition-all"
         :class="[
           {
             'border-red-400': errors.length,
             'pl-12': withIcon === true,
             'focus:rounded-t focus:border-b-0': showSearch === true,
+            ' bg-white shadow-lg border border-2 border-secondary-300':
+              isFocused,
             'rounded-md': !showSearch,
           },
           classes,
@@ -25,9 +27,9 @@
         :value="value"
         @input="onInput($event)"
         @keydown="$emit('keydown', $event)"
-        @blur="$emit('blur', $event)"
+        @blur="blur($event)"
         @keyup="$emit('keyup', $event)"
-        @focus="$emit('focus', $event)"
+        @focus="focus($event)"
       />
       <div v-if="errors.length" class="text-secondary-600 mt-1 text-sm">
         {{ errors[0] }}
@@ -55,11 +57,24 @@
       <div class="absolute right-0 top-0 bottom-0 w-12 block ml-2">
         <button v-if="value != ''" @click="removeText()">
           <icon-x
-            class="mt-[18px] w-5 h-5 stroke-current text-secondary-500 hover:text-secondary-800"
+            class="mt-[14px] w-5 h-5 stroke-current text-secondary-500 hover:text-secondary-800"
           />
         </button>
       </div>
-      <div v-if="withIcon" class="absolute left-0 bottom-0 block -mt-16 w-full">
+      <div
+        v-if="showSearch"
+        ref="searchResult"
+        class="absolute block left-0 bottom-0 border-t-0 border-secondary-300 -mb-6 w-full border transition-all duration-100"
+        :class="{
+          'border-l-2 border-r-2 border-b-2 border-secondary-300 rounded-b block':
+            isFocused,
+        }"
+        @mousemove="isFocused = true"
+        @click="(e) => (isFocused = true)"
+      >
+        <div class="px-2">
+          <hr />
+        </div>
         <slot name="searchResult"></slot>
       </div>
     </div>
@@ -112,7 +127,11 @@ export default {
       default: false,
     },
   },
-
+  data() {
+    return {
+      isFocused: false,
+    };
+  },
   computed: {
     classes() {
       return {
@@ -129,9 +148,15 @@ export default {
     },
     closeMenu() {
       this.$emit("away");
+      this.isFocused = false;
     },
-    focus() {
-      this.$refs.input.focus();
+    focus(e) {
+      this.$emit("focus", e);
+      this.isFocused = true;
+    },
+    blur(e) {
+      this.$emit("blur", e);
+      this.isFocused = false;
     },
     select() {
       this.$refs.input.select();
