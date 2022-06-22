@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ events }}
+    <!-- {{ events }} -->
   </div>
 </template>
 

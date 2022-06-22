@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="currentLayout != 'auth'"
-    class="sm:h-32 py-6 sm:py-0 rounded-b-lg bg-gradient-to-b from-secondary-300 to-secondary-200 border-b border-secondary-200 relative"
+    class="sm:h-32 py-6 sm:py-0 bg-gradient-to-b from-secondary-300 to-secondary-200 border-b border-secondary-200 relative z-10"
   >
     <nav
       class="px-6 container mt-4 sm:flex sm:justify-between sm:items-center mx-auto"
