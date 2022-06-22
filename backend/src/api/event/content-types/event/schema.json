@@ -37,22 +37,28 @@
       "relation": "oneToOne",
       "target": "api::category.category"
     },
-    "artists": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::artist.artist",
-      "mappedBy": "event"
-    },
-    "prices": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::price.price",
-      "mappedBy": "event"
-    },
     "organization": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::organization.organization",
+      "inversedBy": "events"
+    },
+    "purchases": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::purchase.purchase",
+      "mappedBy": "event"
+    },
+    "prices": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::price.price",
+      "inversedBy": "events"
+    },
+    "artists": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::artist.artist",
       "inversedBy": "events"
     }
   }

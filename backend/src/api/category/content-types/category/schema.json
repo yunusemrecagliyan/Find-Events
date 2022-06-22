@@ -24,11 +24,11 @@
       "relation": "oneToMany",
       "target": "api::category.category"
     },
-    "artist": {
+    "artists": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::artist.artist",
-      "inversedBy": "categories"
+      "mappedBy": "categories"
     }
   }
 }

@@ -37,12 +37,6 @@
     },
     "buyCount": {
       "type": "integer"
-    },
-    "purchases": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::purchase.purchase",
-      "mappedBy": "organization"
     }
   }
 }

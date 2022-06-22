@@ -12,10 +12,10 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "organization": {
+    "event": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::organization.organization",
+      "target": "api::event.event",
       "inversedBy": "purchases"
     },
     "user": {

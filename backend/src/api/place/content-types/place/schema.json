@@ -51,6 +51,12 @@
     },
     "map": {
       "type": "text"
+    },
+    "city": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::city.city",
+      "inversedBy": "places"
     }
   }
 }

@@ -32,16 +32,16 @@
     "about": {
       "type": "text"
     },
+    "events": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::event.event",
+      "inversedBy": "artists"
+    },
     "categories": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::category.category",
-      "mappedBy": "artist"
-    },
-    "event": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::event.event",
       "inversedBy": "artists"
     }
   }

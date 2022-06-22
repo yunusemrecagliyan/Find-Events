@@ -2,4 +2,8 @@
   <div>Selam kanka nasılsın</div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useEventStore } from "../stores/event";
+const eventStore = useEventStore();
+eventStore.getEvents();
+</script>
