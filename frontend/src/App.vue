@@ -1,6 +1,6 @@
 <template>
   <ENavbar></ENavbar>
-  <main class="flex flex-1 h-full">
+  <main class="flex-1 h-full">
     <RouterView />
   </main>
   <EFooter></EFooter>
