@@ -18,7 +18,7 @@
             class="absolute w-full bottom-0 p-16 flex flex-col justify-end text-2xl font-bold bg-gradient-to-t from-black/70 text-secondary-100 h-1/2"
           >
             <span>
-              {{ slide.artistName }}
+              {{ slide.artistName ?? "" }}
             </span>
             <span>
               {{ dayjs(slide.date).format("llll") }}

@@ -1,33 +1,34 @@
 <template>
-  <div>
+  <div class="container">
     <div
       class="gap-3 flex justify-between flex-wrap sm:flex-nowrap items-center"
     >
-      <div class="border border-gray-200 py-2 sm:order-1">
-        <select v-model="selectedSortOption">
-          <option
-            v-for="option in sortByOptions"
-            :key="option.value"
-            :value="option.value"
-          >
-            {{ option.label }}
-          </option>
-        </select>
+      <div class="py-2 sm:order-1">
+        <base-select
+          :options="sortByOptions"
+          v-model="selectedSortOption"
+        ></base-select>
       </div>
       <!-- :slidesPerView="categories.length + 1" -->
       <swiper
+        :modules="[Navigation]"
+        navigation
         :breakpoints="{
           320: {
             slidesPerView: 2.6,
             spaceBetween: 0,
           },
           480: {
-            slidesPerView: 4,
-            spaceBetween: 20,
+            slidesPerView: 4.4,
+            spaceBetween: 5,
           },
           640: {
-            slidesPerView: 5,
-            spaceBetween: 30,
+            slidesPerView: 5.4,
+            spaceBetween: 3,
+          },
+          768: {
+            slidesPerView: 7.4,
+            spaceBetween: 20,
           },
         }"
         tag="div"
@@ -35,7 +36,7 @@
       >
         <swiper-slide
           tag="button"
-          class="py-2 text-center rounded-lg"
+          class="py-2 text-center rounded-lg my-auto"
           v-for="(category, index) in categories"
           :class="
             selectedCategory === index
@@ -58,19 +59,18 @@
     </div>
     <transition
       mode="out-in"
-      enter-active-class="duration-200 transition origin-top"
-      leave-active-class="duration-200 transition origin-top"
+      enter-active-class="transition origin-top"
+      leave-active-class="transition origin-top"
       enter-from-class="opacity-0 scale-y-0"
       enter-to-class="opacity-100 scale-y-100"
       leave-to-class="opacity-0 scale-y-0"
       leave-from-class="opacity-100 scale-y-100"
     >
-      <div
-        v-show="showFilters"
-        class="px-4 space-y-4 md:flex md:justify-between"
-      >
+      <div v-show="showFilters" class="px-4 md:flex md:justify-between">
         <div class="flex flex-col">
-          <label class="font-semibold" for="date">Tarih</label>
+          <label class="block mb-2 text-sm font-medium text-gray-900" for="date"
+            >Tarih</label
+          >
           <datepicker
             format="yyyy-MM-dd"
             range
@@ -83,28 +83,18 @@
           ></datepicker>
         </div>
         <div class="flex flex-col">
-          <label class="font-semibold" for="place">Mekan</label>
-          <select id="place" name="place" v-model="selectedSortOption">
-            <option
-              v-for="option in sortByOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
+          <base-select
+            label="Mekan"
+            :options="placeOptions"
+            v-model="selectedPlaceOption"
+          ></base-select>
         </div>
         <div class="flex flex-col">
-          <label class="font-semibold" for="city">Şehir</label>
-          <select id="city" name="city" v-model="selectedSortOption">
-            <option
-              v-for="option in sortByOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
+          <base-select
+            label="Şehir"
+            :options="cityOptions"
+            v-model="selectedCityOption"
+          ></base-select>
         </div>
       </div>
     </transition>
@@ -113,11 +103,15 @@
 
 <script setup>
 import { Swiper, SwiperSlide } from "swiper/vue";
+import { Navigation } from "swiper";
 
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import Datepicker from "@vuepic/vue-datepicker";
 import IconFilter from "../Icons/IconFilter.vue";
 import "@vuepic/vue-datepicker/dist/main.css";
+import BaseSelect from "../Common/BaseSelect.vue";
+
+const emit = defineEmits(["changed"]);
 
 const showFilters = ref(false);
 const props = defineProps({
@@ -129,20 +123,56 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  filterOptions: {
+  placeOptions: {
     type: Array,
     required: true,
   },
-  modelValue: {
-    type: Object,
+  cityOptions: {
+    type: Array,
     required: true,
   },
 });
 const selectedSortOption = ref(props.sortByOptions[0].value);
 const selectedCategory = ref(0);
-const selectedDate = ref(new Date());
+const selectedDate = ref(null);
+const selectedPlaceOption = ref(0);
+const selectedCityOption = ref(0);
+
+watch(
+  () => [
+    selectedCategory.value,
+    selectedSortOption.value,
+    selectedDate.value,
+    selectedPlaceOption.value,
+    selectedCityOption.value,
+  ],
+  () => {
+    emit("changed", {
+      category: props.categories[selectedCategory.value].id,
+      sort: selectedSortOption.value,
+      date: selectedDate.value,
+      place: selectedPlaceOption.value,
+      city: selectedCityOption.value,
+    });
+  }
+);
 
 const selectCategory = (id) => {
   selectedCategory.value = id;
 };
 </script>
+<style>
+.swiper-button-prev,
+.swiper-button-next {
+  @apply text-gray-600;
+}
+.swiper-button-next:after,
+.swiper-rtl .swiper-button-prev:after {
+  content: "next";
+  font-size: 24px;
+}
+.swiper-button-prev:after {
+  content: "prev";
+  font-size: 24px;
+}
+</style>
