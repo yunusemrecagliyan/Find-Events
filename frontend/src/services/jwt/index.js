@@ -29,7 +29,6 @@ export function fillAxiosHeader(axiosInstance) {
   axiosInstance.interceptors.request.use(
     (config) => {
       const token = getToken();
-      console.log(token == "null");
       if (token && token != "null") {
         if (config.headers) {
           config.headers["Authorization"] = `${jwtConfig.TOKEN_TYPE} ${token}`;
@@ -50,7 +49,6 @@ export function handleUnauthorizedRequest(axiosInstance) {
       return response;
     },
     (error) => {
-      console.log(error);
       const originalRequest = error.config;
       if (
         error.response.status === 401 &&

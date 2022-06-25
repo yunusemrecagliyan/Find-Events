@@ -58,13 +58,13 @@
       </button>
     </div>
     <transition
-      mode="out-in"
+      mode="in-out"
       enter-active-class="transition origin-top"
       leave-active-class="transition origin-top"
-      enter-from-class="opacity-0 scale-y-0"
-      enter-to-class="opacity-100 scale-y-100"
-      leave-to-class="opacity-0 scale-y-0"
-      leave-from-class="opacity-100 scale-y-100"
+      enter-from-class="opacity-0 scale-y-0 h-0"
+      enter-to-class="opacity-100 scale-y-100 h-100"
+      leave-to-class="opacity-0 scale-y-0 h-0"
+      leave-from-class="opacity-100 scale-y-100 h-100"
     >
       <div v-show="showFilters" class="px-4 md:flex md:justify-between">
         <div class="flex flex-col">

@@ -11,7 +11,7 @@
       <swiper-slide v-for="slide in artists" :key="slide.id">
         <router-link
           :to="`/sanatci/${slide.id}`"
-          class="flex justify-center align-middle h-96 relative bg-black"
+          class="flex justify-center align-middle h-96 relative bg-black aspect-auto"
         >
           <img :src="baseUrl + slide.picture" class="h-full object-contain" />
           <div

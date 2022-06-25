@@ -1,5 +1,5 @@
 <template>
-  <div v-click-away="closeMenu">
+  <div v-click-away="closeMenu" @keydown.esc="closeMenu">
     <label
       v-if="label"
       class="form-label block mb-1 font-semibold text-gray-700"
@@ -64,11 +64,12 @@
       <div
         v-if="showSearch"
         ref="searchResult"
-        class="absolute block left-0 bottom-0 top-0 border-t-0 border-secondary-300 mt-12 h-64 w-full border transition-all duration-100"
+        class="absolute block left-0 bottom-0 top-0 border-t-0 border-secondary-300 mt-[46px] h-64 w-full border transition-all duration-100"
         :class="{
           'border-l-2 border-r-2 border-b-2 border-secondary-300 rounded-b block':
             isFocused,
         }"
+        @keydown.esc="closeSearch"
         @mousemove="isFocused = true"
         @click="(e) => (isFocused = true)"
       >

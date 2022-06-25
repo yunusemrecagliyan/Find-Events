@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="currentLayout != 'auth'"
-    class="sm:h-32 py-6 sm:py-0 bg-gradient-to-b from-secondary-300 to-secondary-200 border-b border-secondary-200 relative z-10"
+    class="sm:h-32 py-6 sm:py-0 border-b bg-white relative z-10"
   >
     <nav
       class="px-6 container mt-4 sm:flex sm:justify-between sm:items-center mx-auto"
@@ -11,7 +11,7 @@
           to="/"
           class="text-lg font-bold text-gray-100 sm:text-2xl hover:text-secondary-400"
         >
-          <icon-logo alt="FindEvent" class="w-44 h-20 text-white" />
+          <icon-logo alt="FindEvent" class="w-44 h-20 text-secondary-400" />
         </router-link>
 
         <navbar-toggle-button

@@ -11,14 +11,7 @@
         class="flex flex-col p-4 justify-center items-center bg-gradient-to-t from-secondary-500 to-secondary-900 w-full text-white text-lg font-semibold gap-4"
       >
         <icon-logo class="h-32 w-full"></icon-logo>
-        <span
-          >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ut pariatur
-          nemo accusantium quaerat laborum! Earum assumenda quasi error? dolore
-          dolorem.</span
-        >
-        <span
-          >Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
-        </span>
+        <span> En yeni etkinlikler find your event adresinde.</span>
       </div>
       <popular-carousel
         class="w-full md:w-[49%] bg-black"
@@ -40,13 +33,16 @@
         class="my-4"
       ></event-filter>
 
-      <event-list class="w-full" :events="events"></event-list>
+      <event-list
+        class="w-full"
+        :events="events"
+        :filters="filters"
+      ></event-list>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import dayjs from "dayjs";
 import qs from "qs";
 import { storeToRefs } from "pinia";
@@ -62,6 +58,7 @@ import EventFilter from "../components/Event/EventFilter.vue";
 import { useCityStore } from "../stores/city";
 import { usePlaceStore } from "../stores/place";
 import { onMounted } from "vue-demi";
+import { computed, ref } from "vue";
 const eventStore = useEventStore();
 const artistStore = useArtistStore();
 const categoryStore = useCategoryStore();
@@ -73,9 +70,21 @@ const { artists } = storeToRefs(artistStore);
 const { categories, subCategories } = storeToRefs(categoryStore);
 const { cities } = storeToRefs(cityStore);
 const { places } = storeToRefs(placeStore);
+const filters = ref({});
+const placeOptions = computed(() =>
+  places.value.map((place) => ({
+    label: place.name,
+    value: place.id,
+  }))
+);
 
-const cityOptions = ref([]);
-const placeOptions = ref([]);
+const cityOptions = computed(() =>
+  cities.value.map((city) => ({
+    label: city.name,
+    value: city.id,
+  }))
+);
+
 const sortByOptions = [
   {
     label: "Tarih",
@@ -88,7 +97,13 @@ const sortByOptions = [
 ];
 
 const filterUpdated = async (filter) => {
-  console.log(filter);
+  filters.value = {
+    city: cities.value.find((x) => x.id == filter.city)?.name ?? undefined,
+    date: filter.date?.map((date) =>
+      date ? dayjs(date).format("DD MMMM YYYY") : ""
+    ),
+    place: places.value.find((x) => x.id == filter.place)?.name ?? undefined,
+  };
   let query = {
     pagination: {
       start: 0,
@@ -150,13 +165,14 @@ const filterUpdated = async (filter) => {
       },
     },
     populate: {
+      place: "*",
       events: {
         populate: [
           "category",
           "pictures",
-          "place",
           "artists",
           "artists.pictures",
+          "prices",
         ],
       },
     },
@@ -168,52 +184,37 @@ const filterUpdated = async (filter) => {
 };
 
 const getEvents = async (key, query) => {
-  if (!query) {
-    (query = {
-      pagination: {
-        start: 0,
-        limit: 100,
-      },
-      sort: ["viewCount:desc"],
-      filters: {
-        events: {
-          date: {
-            $gte: dayjs().format("YYYY-MM-DD"),
-          },
-        },
-      },
-      populate: { events: { populate: ["category", "pictures", "place"] } },
-    }),
-      {
-        encodeValuesOnly: true,
-      };
-  }
   const customQuery = qs.stringify(query);
   eventStore.$patch({
-    [key]: (await eventStore.getEvents(customQuery)).data?.map((event) => ({
-      id: event.id,
-      eventName: event.attributes.events.data[0].attributes.name,
-      date: event.attributes.events.data[0].attributes.date,
-      category:
-        event.attributes.events.data[0].attributes.category.data.attributes
-          .name,
-      picture:
-        event.attributes.events.data[0].attributes.pictures.data[0].attributes
-          .url,
-      prices: event.attributes.events.data[0].attributes.prices?.data.map(
-        (price) => ({
-          price: price.attributes.price,
-          discount: price.attributes.discount,
-        })
-      ),
-      artists: event.attributes.events.data[0].attributes.artists?.data.map(
-        (artist) => ({
-          id: artist.id,
-          name: artist.attributes.name,
-          picture: artist.attributes.pictures.data[0].attributes.url,
-        })
-      ),
-    })),
+    [key]: (await eventStore.getEvents(customQuery)).data
+      ?.filter((x, index, list) => {
+        return list.findIndex((y) => y.id === x.id) === index;
+      })
+      .map((event) => ({
+        id: event.id,
+        eventName: event.attributes.events.data[0].attributes.name,
+        date: event.attributes.events.data[0].attributes.date,
+        category:
+          event.attributes.events.data[0].attributes.category.data.attributes
+            .name,
+        picture:
+          event.attributes.events.data[0].attributes.pictures.data[0].attributes
+            .url,
+        prices: event.attributes.events.data[0].attributes.prices?.data.map(
+          (price) => ({
+            price: price.attributes.price,
+            discount: price.attributes.discount,
+          })
+        ),
+        place: event.attributes.place?.data.attributes,
+        artists: event.attributes.events.data[0].attributes.artists?.data.map(
+          (artist) => ({
+            id: artist.id,
+            name: artist.attributes.name,
+            picture: artist.attributes.pictures.data[0].attributes.url,
+          })
+        ),
+      })),
   });
 };
 
@@ -278,11 +279,11 @@ onMounted(async () => {
         },
       },
       populate: {
+        place: "*",
         events: {
           populate: [
             "category",
             "pictures",
-            "place",
             "artists",
             "artists.pictures",
             "prices",
@@ -294,13 +295,5 @@ onMounted(async () => {
       encodeValuesOnly: true,
     }
   );
-  cityOptions.value = cities.value.map((city) => ({
-    label: city.name,
-    value: city.id,
-  }));
-  placeOptions.value = places.value.map((place) => ({
-    label: place.name,
-    value: place.id,
-  }));
 });
 </script>
