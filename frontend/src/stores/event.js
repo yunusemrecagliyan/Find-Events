@@ -7,6 +7,7 @@ export const useEventStore = defineStore({
   state: () => ({
     events: [],
     popularEvents: [],
+    event: {},
   }),
   getters: {},
   actions: {
@@ -46,7 +47,29 @@ export const useEventStore = defineStore({
             };
         }
         const { data } = await $axios.get(`/organizations?${query}`);
-        return data;
+        return data.data;
+      } catch (error) {
+        return [];
+      }
+    },
+    async getEvent(id) {
+      try {
+        var query = qs.stringify({
+          filters: {
+            id: { $eq: id },
+          },
+          populate: {
+            place: { populate: "*" },
+            events: {
+              populate: "*",
+            },
+            organizer: { populate: "*" },
+          },
+        });
+        const { data } = await $axios.get(`/organizations?${query}`);
+
+        this.event = data.data[0];
+        return { ...this.event };
       } catch (error) {
         return [];
       }

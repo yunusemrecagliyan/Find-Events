@@ -186,34 +186,26 @@ const filterUpdated = async (filter) => {
 const getEvents = async (key, query) => {
   const customQuery = qs.stringify(query);
   eventStore.$patch({
-    [key]: (await eventStore.getEvents(customQuery)).data
+    [key]: (await eventStore.getEvents(customQuery))
       ?.filter((x, index, list) => {
         return list.findIndex((y) => y.id === x.id) === index;
       })
-      .map((event) => ({
+      .map(({ events, place, ...event }) => ({
         id: event.id,
-        eventName: event.attributes.events.data[0].attributes.name,
-        date: event.attributes.events.data[0].attributes.date,
-        category:
-          event.attributes.events.data[0].attributes.category.data.attributes
-            .name,
-        picture:
-          event.attributes.events.data[0].attributes.pictures.data[0].attributes
-            .url,
-        prices: event.attributes.events.data[0].attributes.prices?.data.map(
-          (price) => ({
-            price: price.attributes.price,
-            discount: price.attributes.discount,
-          })
-        ),
-        place: event.attributes.place?.data.attributes,
-        artists: event.attributes.events.data[0].attributes.artists?.data.map(
-          (artist) => ({
-            id: artist.id,
-            name: artist.attributes.name,
-            picture: artist.attributes.pictures.data[0].attributes.url,
-          })
-        ),
+        eventName: events[0].name,
+        date: events[0].date,
+        category: events[0].category.name,
+        picture: events[0].pictures[0].url,
+        prices: events[0].prices?.map((price) => ({
+          price: price.price,
+          discount: price.discount,
+        })),
+        place: place,
+        artists: events[0].artists?.map((artist) => ({
+          id: artist.id,
+          name: artist.name,
+          picture: artist.pictures[0].url,
+        })),
       })),
   });
 };
@@ -228,12 +220,10 @@ const getArtists = async () => {
     }
   );
   artistStore.$patch({
-    artists: (await artistStore.getArtists(query)).data.map((artist) => ({
+    artists: (await artistStore.getArtists(query)).map((artist) => ({
       id: artist.id,
-      artistName: `${artist.attributes.name ?? ""} ${
-        artist.attributes.surname ?? ""
-      }`,
-      picture: artist.attributes.pictures.data[0].attributes.url,
+      artistName: `${artist.name ?? ""} ${artist.surname ?? ""}`,
+      picture: artist.pictures[0].url,
     })),
   });
 };

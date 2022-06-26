@@ -10,7 +10,8 @@ export const useArtistStore = defineStore({
     async getArtists(query) {
       try {
         const { data } = await $axios.get(`/artists?${query}`);
-        return data;
+        console.log(data);
+        return data.data;
       } catch (error) {
         return [];
       }

@@ -37,7 +37,6 @@ const filterString = computed(() => {
   const { date, place } = filters;
   const filterString = [`Toplam ${props.events.length} etkinlik`];
   if (date) {
-    console.log(date);
     filterString.push(
       date[1] == ""
         ? `${date[0]} tarihinden sonra`

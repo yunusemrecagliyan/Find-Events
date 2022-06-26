@@ -1,5 +1,8 @@
 <template>
-  <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4">
+  <router-link
+    :to="`/${event.eventName.trim().slug()}/${event.id}`"
+    class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4"
+  >
     <div
       class="group w-full h-full min-h-[300px] cursor-pointer transition-all shadow hover:shadow-lg rounded flex flex-col"
     >
@@ -9,7 +12,7 @@
       ></event-card-image>
       <event-card-info :event="event"></event-card-info>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script setup>

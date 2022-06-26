@@ -27,8 +27,8 @@ export const usePlaceStore = defineStore({
         });
         const { data } = await $axios.get(`/places?${query}`);
         this.places = data.data.map((place) => ({
-          ...place.attributes,
-          cityId: place.attributes.city.id,
+          ...place,
+          cityId: place.city.id,
           id: place.id,
         }));
         return data;

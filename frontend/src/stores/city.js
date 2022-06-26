@@ -12,7 +12,7 @@ export const useCityStore = defineStore({
       try {
         const { data } = await $axios.get(`/cities`);
         this.cities = data.data.map((city) => ({
-          ...city.attributes,
+          ...city,
           id: city.id,
         }));
         return data;

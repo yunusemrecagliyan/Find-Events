@@ -10,7 +10,7 @@
     >
       <swiper-slide v-for="slide in popularEvents" :key="slide.id">
         <router-link
-          :to="`/etkinlik/${slide.id}`"
+          :to="`/${slide.eventName.trim().slug()}/${slide.id}`"
           class="flex justify-center align-middle h-96 relative bg-black"
         >
           <img :src="baseUrl + slide.picture" class="h-full object-contain" />
@@ -48,6 +48,7 @@ const modules = [Navigation, Pagination, Scrollbar, Autoplay];
 dayjs.extend(LocalizedFormat);
 dayjs.locale(Turkish);
 const baseUrl = import.meta.env.VITE_APP_BASE_URL;
+
 defineProps({
   popularEvents: {
     type: Array,

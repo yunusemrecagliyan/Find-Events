@@ -22,16 +22,16 @@ export const useCategoryStore = defineStore({
         );
         const { data } = await $axios.get(`/categories?${query}`);
         this.categories = data.data
-          .filter((cat) => cat.attributes.isSubCategory === false)
+          .filter((cat) => cat.isSubCategory === false)
           .map((cat) => ({
             id: cat.id,
-            ...cat.attributes,
+            ...cat,
           }));
         this.subCategories = data.data
-          .filter((cat) => cat.attributes.isSubCategory === true)
+          .filter((cat) => cat.isSubCategory === true)
           .map((cat) => ({
             id: cat.id,
-            ...cat.attributes,
+            ...cat,
           }));
         return data;
       } catch (error) {

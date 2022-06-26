@@ -41,6 +41,22 @@ const router = createRouter({
         layout: "normal",
       },
     },
+    {
+      path: "/:slug/:id",
+      name: "eventDetail",
+      component: () => import("../views/EventDetailView.vue"),
+      meta: {
+        layout: "search",
+      },
+    },
+    {
+      path: "/sanatci/:slug/:id",
+      name: "artist",
+      component: () => import("../views/ArtistView.vue"),
+      meta: {
+        layout: "search",
+      },
+    },
   ],
 });
 
